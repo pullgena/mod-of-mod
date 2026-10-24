@@ -156,7 +156,7 @@ public final class ServerData {
             if (y < 64 || y > level.getMaxY() - 3 || !level.getWorldBorder().isWithinBounds(at)) continue;
             if (!level.getBlockState(at).isAir() || !level.getBlockState(at.above()).isAir()) continue;
             if (!level.getFluidState(at.below()).isEmpty()) continue;
-            if (!level.getBlockState(at.below()).blocksMotion()) continue;
+            if (!level.getBlockState(at.below()).isCollisionShapeFullBlock(level, at.below())) continue;
             return at;
         }
         return null;

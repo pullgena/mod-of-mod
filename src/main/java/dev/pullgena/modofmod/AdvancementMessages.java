@@ -18,7 +18,7 @@ public final class AdvancementMessages {
         if (id.equals("minecraft:adventure/kill_all_mobs")) return 125;
         if (id.equals("minecraft:story/mine_stone")) return 5;
         if (holder.value().display().isPresent()) {
-            AdvancementType type = holder.value().display().get().getType();
+            AdvancementType type = holder.value().display().get().type();
             return switch (type) {
                 case CHALLENGE -> 50;
                 case GOAL -> 15;
@@ -29,7 +29,7 @@ public final class AdvancementMessages {
     }
 
     public static String name(AdvancementHolder holder) {
-        return holder.value().display().map(display -> display.getTitle().getString())
+        return holder.value().display().map(display -> display.title().getString())
             .orElseGet(() -> holder.id().getPath());
     }
 

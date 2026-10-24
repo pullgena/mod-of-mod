@@ -20,10 +20,10 @@ public final class ModOfModClient implements ClientModInitializer {
         Identifier.fromNamespaceAndPath(ModOfMod.ID, "general")
     );
     private final KeyMapping shop = KeyMappingHelper.registerKeyMapping(
-        new KeyMapping("key.modofmod.shop", InputConstants.Type.KEYSYM, InputConstants.KEY_B, category)
+        new KeyMapping("key.modofmod.shop", InputConstants.Type.KEYBOARD, InputConstants.KEY_B, category)
     );
     private final KeyMapping map = KeyMappingHelper.registerKeyMapping(
-        new KeyMapping("key.modofmod.map", InputConstants.Type.KEYSYM, InputConstants.KEY_M, category)
+        new KeyMapping("key.modofmod.map", InputConstants.Type.KEYBOARD, InputConstants.KEY_J, category)
     );
 
     @Override
@@ -53,6 +53,6 @@ public final class ModOfModClient implements ClientModInitializer {
                 }
             }
         });
-        LOGGER.info("Client UI, store key B and map overlay key M registered.");
+        LOGGER.info("Client UI, store key B and map overlay key J registered.");
     }
 }
