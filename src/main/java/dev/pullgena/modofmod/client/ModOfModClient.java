@@ -44,7 +44,7 @@ public final class ModOfModClient implements ClientModInitializer {
             }));
         ScreenEvents.AFTER_INIT.register((minecraft, screen, width, height) -> {
             if (screen instanceof TitleScreen) {
-                Screens.getButtons(screen).add(Button.builder(
+                Screens.getWidgets(screen).add(Button.builder(
                     Component.literal("Mod of Mod 업데이트"), b -> minecraft.gui.setScreen(new UpdateScreen(screen)))
                     .bounds(width-162,height-27,154,20).build());
             }
