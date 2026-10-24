@@ -29,7 +29,6 @@ public final class UpdateScreen extends Screen {
             b -> minecraft.gui.setScreen(previous)).bounds(cx-55,cy+54,110,20).build());
     }
     @Override public void extractRenderState(GuiGraphicsExtractor g,int mx,int my,float delta) {
-        super.extractRenderState(g,mx,my,delta);
         int cx=width/2, cy=height/2;
         g.fill(cx-163,cy-90,cx+163,cy+8,0xEA1B2937);
         g.fill(cx-162,cy-89,cx+162,cy-85,0xFF6AB4F6);
@@ -38,6 +37,7 @@ public final class UpdateScreen extends Screen {
         String shortMessage = status.length()>57 ? status.substring(0,57)+"..." : status;
         g.centeredText(font,shortMessage,cx,cy-23,0xFFE6E6E6);
         g.centeredText(font,"적용하려면 게임/서버를 다시 시작해야 합니다.",cx,cy-9,0xFFB5C5D5);
+        super.extractRenderState(g,mx,my,delta);
     }
     @Override public boolean isPauseScreen() { return false; }
 }
