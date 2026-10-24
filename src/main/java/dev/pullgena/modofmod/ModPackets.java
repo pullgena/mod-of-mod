@@ -6,6 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import java.util.List;
 
 /** Registered on both physical sides; contains no client-only classes. */
 public final class ModPackets {
@@ -35,8 +36,30 @@ public final class ModPackets {
         @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
     }
 
+
+    public record RadarPoint(int dx, int dz, String playerName) {}
+    public record Radar(List<RadarPoint> points) implements CustomPacketPayload {
+        public static final Type<Radar> TYPE = new Type<>(Identifier.fromNamespaceAndPath(ModOfMod.ID, "radar"));
+        private static final StreamCodec<RegistryFriendlyByteBuf, RadarPoint> POINT =
+            StreamCodec.composite(ByteBufCodecs.VAR_INT, RadarPoint::dx,
+                ByteBufCodecs.VAR_INT, RadarPoint::dz,
+                ByteBufCodecs.STRING_UTF8, RadarPoint::playerName, RadarPoint::new);
+        public static final StreamCodec<RegistryFriendlyByteBuf, Radar> CODEC =
+            StreamCodec.composite(POINT.apply(ByteBufCodecs.list(8)), Radar::points, Radar::new);
+        @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    }
+
+    public record AdminOpen(int authorized) implements CustomPacketPayload {
+        public static final Type<AdminOpen> TYPE = new Type<>(Identifier.fromNamespaceAndPath(ModOfMod.ID, "admin_open"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, AdminOpen> CODEC =
+            StreamCodec.composite(ByteBufCodecs.VAR_INT, AdminOpen::authorized, AdminOpen::new);
+        @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    }
+
     public static void register() {
         PayloadTypeRegistry.clientboundPlay().register(Balance.TYPE, Balance.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(Radar.TYPE, Radar.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(AdminOpen.TYPE, AdminOpen.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(Achievement.TYPE, Achievement.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ShopRequest.TYPE, ShopRequest.CODEC);
     }

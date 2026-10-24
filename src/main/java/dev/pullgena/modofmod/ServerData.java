@@ -121,7 +121,6 @@ public final class ServerData {
     public void firstJoin(ServerPlayer player, ServerLevel level) {
         Record r = player(player.getUUID());
         if (r.spawned) {
-            ensureMap(player, level);
             return;
         }
         BlockPos point = findSafeRandomSpawn(level, player.getUUID());
@@ -134,7 +133,6 @@ public final class ServerData {
             ModOfMod.LOGGER.warn("Unable to find a safe random spawn, using world spawn for {}", player.getGameProfile().name());
         }
         r.spawned = true;
-        ensureMap(player, level);
         save();
     }
 

@@ -24,6 +24,7 @@ public final class ModOfMod implements ModInitializer {
     @Override
     public void onInitialize() {
         ModPackets.register();
+        ManagementCommands.register();
         ServerLifecycleEvents.SERVER_STARTED.register(server -> data = ServerData.load());
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             if (data != null) data.save();
@@ -49,6 +50,7 @@ public final class ModOfMod implements ModInitializer {
         // Only 2 players and ~125 vanilla advancements; check once per second, not every tick.
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             if (data == null || ++tickCounter % 20 != 0) return;
+            RadarService.sync(server);
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 checkAdvancements(server, player);
             }

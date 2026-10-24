@@ -10,6 +10,7 @@ import dev.pullgena.modofmod.ShopCatalog;
 
 /** Dedicated shop UI; paper-shaped coin balance is visible only here. */
 public final class ShopScreen extends Screen {
+    private long created = System.currentTimeMillis();
     public ShopScreen() { super(Component.literal("모험가 상점")); }
 
     @Override
@@ -36,6 +37,10 @@ public final class ShopScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         // Super renders widgets. The paper design sits around, not over, their clickable surfaces.
         super.extractRenderState(graphics, mouseX, mouseY, delta);
+        int reveal=Math.min(22, (int)((System.currentTimeMillis()-created)/22));
+        int cxPanel=width/2;
+        graphics.fill(cxPanel-165,height/2-89+22-reveal,cxPanel+165,height/2+86,0xB71A292D);
+        graphics.fill(cxPanel-165,height/2-89+22-reveal,cxPanel+165,height/2-85+22-reveal,0xFFBE9650);
         int cx = width / 2;
         int top = height / 2 - 79;
         graphics.centeredText(font, "✦ 모험가 상점 ✦", cx, top + 13, 0xFFFFE3A0);
